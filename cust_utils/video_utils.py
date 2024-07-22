@@ -2,7 +2,7 @@ import numpy as np
 import collections
 import argparse
 import os
-import yaml
+# import yaml
 import typing as T
 import imageio
 import matplotlib

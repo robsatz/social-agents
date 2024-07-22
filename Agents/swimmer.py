@@ -15,6 +15,7 @@
 
 """Procedurally generated Swimmer domain."""
 import collections
+import os
 
 from dm_control import mujoco
 from dm_control.rl import control
@@ -42,6 +43,7 @@ def get_model_and_assets(n_joints):
     A tuple `(model_xml_string, assets)`, where `assets` is a dict consisting of
     `{filename: contents_string}` pairs.
   """
+  print('importing')
   return _make_model(n_joints), common.ASSETS
 
 
@@ -84,11 +86,20 @@ def _make_model(n_bodies):
   """Generates an xml string defining a swimmer with `n_bodies` bodies."""
   if n_bodies < 3:
     raise ValueError('At least 3 bodies required. Received {}'.format(n_bodies))
-  mjcf = etree.fromstring(common.read_model('/resources/swimmer.xml'))
-  head_bodies = mjcf.findall('./worldbody/body')
+  script_dir = os.path.dirname(__file__)  # Get the directory of the current script
+  resources_dir = os.path.join(script_dir, 'resources')  # Go to resources directory
+  file_path = os.path.join(resources_dir, 'swimmer.xml')
+
+  # Read the swimmer.xml file
+  with open(file_path, 'r') as file:
+      mjcf = etree.parse(file)
   
-  actuator = etree.SubElement(mjcf, 'actuator')
-  sensor = etree.SubElement(mjcf, 'sensor')
+  root = mjcf.getroot()  # Get the root element
+
+  head_bodies = root.findall('./worldbody/body')
+  
+  actuator = etree.SubElement(root, 'actuator')
+  sensor = etree.SubElement(root, 'sensor')
 
   for body_id, parent in enumerate(head_bodies):
     for body_index in range(n_bodies - 1):
@@ -118,6 +129,8 @@ def _make_model(n_bodies):
       old_pos = cam.get('pos').split(' ')
       new_pos = ' '.join([str(float(dim) * scale) for dim in old_pos])
       cam.set('pos', new_pos)
+
+  print('Two Bodies Imported')
 
   return etree.tostring(mjcf, pretty_print=True)
 
