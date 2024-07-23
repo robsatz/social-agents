@@ -20,7 +20,7 @@ import inspect
 import itertools
 
 from dm_control.rl import control
-import social_agents.agents.architectures.swimmer
+from social_agents.agents.architectures import swimmer
 
 print('Imported Agents')
 

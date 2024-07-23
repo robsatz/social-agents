@@ -6,6 +6,7 @@ Modelling the social behaviors of multiple worms with and without architectural 
 
 - The scripts works in Python==3.10. Other packages can be install via `packages.txt`. 
 ```
+mkdir lib
 cd lib
 git clone https://github.com/fabiopardo/tonic.git
 cd ..
