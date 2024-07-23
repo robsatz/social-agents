@@ -167,3 +167,4 @@ swimmer-swim
 trash
 dm_control
 *.mp4
+*.ipynb
