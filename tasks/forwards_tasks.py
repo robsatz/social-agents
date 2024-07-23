@@ -32,7 +32,7 @@ class Swim(swimmer.Swimmer):
   def get_reward(self, physics):
     """Returns a smooth reward that is 0 when stopped or moving backwards, and rises linearly to 1
     when moving forwards at the desired speed."""
-    forward_velocity = -physics.named.data.sensordata['head_vel'][1]
+    forward_velocity = -physics.named.data.sensordata['head1_vel'][1]
     return rewards.tolerance(
       forward_velocity,
       bounds=(self._desired_speed, float('inf')),

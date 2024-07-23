@@ -26,12 +26,12 @@ from dm_control.utils import containers
 from dm_control.utils import rewards
 from lxml import etree
 import numpy as np
+import os
+os.getcwd()
 
 _DEFAULT_TIME_LIMIT = 30
 _CONTROL_TIMESTEP = .03  # (Seconds)
-
 SUITE = containers.TaggedTasks()
-
 
 def get_model_and_assets(n_joints):
   """Returns a tuple containing the model XML string and a dict of assets.
@@ -222,3 +222,45 @@ class Swimmer(base.Task):
                              bounds=(0, target_size),
                              margin=5*target_size,
                              sigmoid='long_tail')
+
+# ######## Defining agents
+# @SUITE.add() # added to domain swimmer
+# def swim(
+#   n_links=6,
+#   desired_speed=_SWIM_SPEED,
+#   time_limit=_DEFAULT_TIME_LIMIT,
+#   random=None,
+#   environment_kwargs={},
+# ):
+#   '''Passed into suite.load()'''
+#   """Returns the Swim task for a n-link swimmer."""
+#   model_string, assets = swimmer.get_model_and_assets(n_links)
+#   physics = swimmer.Physics.from_xml_string(model_string, assets=assets)
+#   task = Swim(desired_speed=desired_speed, random=random)
+#   return control.Environment(
+#     physics,
+#     task,
+#     time_limit=time_limit,
+#     control_timestep=_CONTROL_TIMESTEP,
+#     **environment_kwargs,
+#   )
+
+# @SUITE.add()
+# def swim_12_links(
+#   n_links=12,
+#   desired_speed=_SWIM_SPEED,
+#   time_limit=_DEFAULT_TIME_LIMIT,
+#   random=None,
+#   environment_kwargs={},
+# ):
+#   """Returns the Swim task for a n-link swimmer."""
+#   model_string, assets = swimmer.get_model_and_assets(n_links)
+#   physics = swimmer.Physics.from_xml_string(model_string, assets=assets)
+#   task = Swim(desired_speed=desired_speed, random=random)
+#   return control.Environment(
+#     physics,
+#     task,
+#     time_limit=time_limit,
+#     control_timestep=_CONTROL_TIMESTEP,
+#     **environment_kwargs,
+#   )

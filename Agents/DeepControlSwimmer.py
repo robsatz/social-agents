@@ -1,5 +1,5 @@
 import dm_control as dm
-import dm_control.suite.swimmer as swimmer
+import Agents.swimmer as swimmer
 from dm_control.rl import control
 from dm_control.utils import rewards
 from dm_control import suite
@@ -55,10 +55,12 @@ parent_dir = os.path.dirname(script_dir)  # Gets the parent directory
 sys.path.append(parent_dir)
 
 from tasks.forwards_tasks import Swim, _SWIM_SPEED
+from dm_control.utils import containers
 
 
+@swimmer.SUITE.add()
 # An agent with 6 joints which passed into 
-@swimmer.SUITE.add() # added to domain swimmer
+
 def swim(
   n_links=6,
   desired_speed=_SWIM_SPEED,
