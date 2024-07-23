@@ -164,4 +164,6 @@ tonic
 output_videos
 data
 swimmer-swim
-
+trash
+dm_control
+*.mp4
