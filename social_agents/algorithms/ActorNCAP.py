@@ -2,11 +2,8 @@ from torch import nn
 import torch
 import numpy as np
 import sys
-import os
-import sys
-sys.path.insert(0, 'Agents/NCAPSwimmer')
 
-from NCAPSwimmer import SwimmerModule
+from social_agents.agents.NCAPSwimmer import SwimmerModule
 
 from tonic.torch import models, normalizers
 

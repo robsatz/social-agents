@@ -49,12 +49,12 @@ import sys
 import sys
 import os
 
-# Add the parent directory to sys.path to resolve the relative imports
-script_dir = os.path.dirname(__file__)  # Gets the directory where the script is located
-parent_dir = os.path.dirname(script_dir)  # Gets the parent directory
-sys.path.append(parent_dir)
+# # Add the parent directory to sys.path to resolve the relative imports
+# script_dir = os.path.dirname(__file__)  # Gets the directory where the script is located
+# parent_dir = os.path.dirname(script_dir)  # Gets the parent directory
+# sys.path.append(parent_dir)
 
-from tasks.forwards_tasks import Swim, _SWIM_SPEED
+from social_agents.tasks.forwards_tasks import Swim, _SWIM_SPEED
 
 
 # An agent with 6 joints which passed into 

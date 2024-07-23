@@ -9,7 +9,7 @@ script_dir = os.path.dirname(__file__)  # Gets the directory where the script is
 parent_dir = os.path.dirname(script_dir)  # Gets the parent directory
 sys.path.append(parent_dir)
 
-from utils.damping_utils import calculate_damping, set_joint_damping, NCAP_damping
+from social_agents.utils.damping_utils import calculate_damping, set_joint_damping, NCAP_damping
 
 # ==================================================================================================
 ######### Define Constraints

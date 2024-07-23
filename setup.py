@@ -1,10 +1,10 @@
 import subprocess
 import platform
 from setuptools import setup, find_packages
+from setuptools.command.develop import develop
 from setuptools.command.install import install
 
-
-class CustomInstallCommand(install):
+class Installer(develop):
     def run(self):
         # Determine the platform
         system = platform.system()
@@ -20,41 +20,27 @@ class CustomInstallCommand(install):
             # macOS-specific commands
             subprocess.run(["brew", "install", "glew"], check=True)
             subprocess.run(["brew", "install", "glfw"], check=True)
-        elif system == 'Windows':
-            # Windows-specific commands
-            subprocess.run(["pip", "install", "-q", "ffmpeg"], check=True)
-            subprocess.run(
-                ["pip", "install", "-q", "dm-acme[envs]"], check=True)
-            subprocess.run(
-                ["pip", "install", "-q", "dm_control>=1.0.16"], check=True)
         else:
             print(f"Unsupported platform: {system}")
 
-        # Proceed with the standard installation
-        install.run(self)
+        subprocess.run(["pip", "install", "-q", "ffmpeg"], check=True)
+        subprocess.run(
+            ["pip", "install", "-q", "dm-acme[envs]"], check=True)
+        subprocess.run(
+            ["pip", "install", "-q", "dm_control>=1.0.16"], check=True)
+        # subprocess.run(["pip", "install", "-e", "lib/tonic/tonic"], check=True)
+        super().run()
 
-
-setup(
-    name='tonic',
-    description='Tonic RL Library',
-    url='https://github.com/fabiopardo/tonic',
-    version='0.3.0',
-    author='Fabio Pardo',
-    author_email='f.pardo@imperial.ac.uk',
-    install_requires=[
-        'gym', 'matplotlib', 'numpy', 'pandas', 'pyyaml', 'termcolor'],
-    license='MIT',
-    python_requires='>=3.6',
-    keywords=['tonic', 'deep learning', 'reinforcement learning'],
-    packages=find_packages(include=['tonic'])  # the line being added
-)
+# class CustomInstallCommand(develop, install, ):
+    # def run(self):
 
 setup(
     name='social_agents',
     version='0.1',
-    packages=find_packages(where='social_agents'),
-    package_dir={'': 'social_agents'},
+    packages=find_packages(include=['social_agents', 'social_agents.*']),
+    # package_dir={'': 'social_agents'},
     cmdclass={
-        'install': CustomInstallCommand,
+        'develop': Installer,
     },
+    # install_requires=['tonic'],
 )

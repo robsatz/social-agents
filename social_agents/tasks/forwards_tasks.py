@@ -1,5 +1,5 @@
 import dm_control as dm
-import Agents.swimmer as swimmer
+import social_agents.agents.swimmer as swimmer
 from dm_control.rl import control
 from dm_control.utils import rewards
 from dm_control import suite

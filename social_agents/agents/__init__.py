@@ -17,10 +17,6 @@
 
 import collections
 import inspect
-import itertools
-
-from dm_control.rl import control
-from social_agents.agents.architectures import swimmer
 
 print('Imported Agents')
 
