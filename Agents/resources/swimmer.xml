@@ -66,12 +66,17 @@
   </worldbody>
 
   <sensor>
-    <framepos name="nose1_pos" objtype="geom" objname="nose1"/>
+    <framepos name="nose_1_pos" objtype="geom" objname="nose1"/>
+    <framepos name="nose_2_pos" objtype="geom" objname="nose2"/>
     <framepos name="target_pos" objtype="geom" objname="target"/>
-    <framexaxis name="head1_xaxis" objtype="xbody" objname="head1"/>
-    <frameyaxis name="head1_yaxis" objtype="xbody" objname="head1"/>
-    <velocimeter name="head1_vel" site="head1"/>
-    <gyro name="head1_gyro" site="head1"/>
+    <framexaxis name="head_1_xaxis" objtype="xbody" objname="head1"/>
+    <frameyaxis name="head_1_yaxis" objtype="xbody" objname="head1"/>
+    <framexaxis name="head_2_xaxis" objtype="xbody" objname="head2"/>
+    <frameyaxis name="head_2_yaxis" objtype="xbody" objname="head2"/>
+    <velocimeter name="head_1_vel" site="head1"/>
+    <gyro name="head_1_gyro" site="head1"/>
+    <velocimeter name="head_2_vel" site="head2"/> 
+    <gyro name="head_2_gyro" site="head2"/>
   </sensor>
 
 </mujoco>

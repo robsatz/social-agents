@@ -102,6 +102,7 @@ def _make_model(n_bodies):
   sensor = etree.SubElement(root, 'sensor')
 
   for body_id, parent in enumerate(head_bodies):
+    body_id+=1
     for body_index in range(n_bodies - 1):
       site_name = 'site_{}_{}'.format(body_id, body_index)
       child = _make_body(body_id=body_id, body_index=body_index)
@@ -162,14 +163,37 @@ class Physics(mujoco.Physics):
     return np.linalg.norm(self.nose_to_target(head_name, nose_name))
 
   def body_velocities(self):
-    """Returns local body velocities: x,y linear, z rotational."""
-    xvel_local = self.data.sensordata[12:].reshape((-1, 6))
+    """Returns local body velocities: x, y linear, z rotational for 2 swimmers."""
+    print(self.named.data.sensordata)
+    # Extract the portion of sensordata after index 21
+    xvel_local = self.named.data.sensordata[21:]
+
+    head_size = 6
+    sensor_size = 30  # 15 velocimeter values + 15 gyro values
+
+    swimmer1_head = xvel_local[:head_size]
+    swimmer1_sensors = xvel_local[head_size:head_size + sensor_size]
+
+    swimmer2_head = xvel_local[head_size + sensor_size:head_size + 2 * sensor_size]
+    swimmer2_sensors = xvel_local[head_size + 2 * sensor_size:]
+
+    swimmer1 = np.concatenate((swimmer1_head, swimmer1_sensors))
+    swimmer2 = np.concatenate((swimmer2_head, swimmer2_sensors))
+
+    swimmer1 = swimmer1.reshape((-1, 6))
+    swimmer2 = swimmer2.reshape((-1, 6))
+
+    print(swimmer1, swimmer2)
+
     vx_vy_wz = [0, 1, 5]  # Indices for linear x,y vels and rotational z vel.
-    return xvel_local[:, vx_vy_wz].ravel()
+    swim1_xvel = swimmer1[:, vx_vy_wz].ravel()
+    swim2_xvel = swimmer2[:, vx_vy_wz].ravel()
+    xvel = np.concatenate((swim1_xvel, swim2_xvel))
+    return xvel
 
   def joints(self):
-    """Returns all internal joint angles (excluding root joints)."""
-    return self.data.qpos[3:].copy()
+    """Returns all internal joint angles (excluding root joints) for each swimmer."""
+    qpos = self.data.qpos[3:]
 
 
 class Swimmer(base.Task):
