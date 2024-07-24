@@ -1,0 +1,12 @@
+after_training: null
+agent: "tonic.torch.agents.PPO(model=ppo_mlp_model(actor_sizes=(256, 256), critic_sizes=(256,\n\
+  \  256)))"
+before_training: null
+environment: tonic.environments.ControlSuite('swimmer-swim')
+header: from neurobo.ncap.swimmer import ppo_mlp_model
+name: pretrained_mlp_ppo
+note: null
+parallel: 1
+seed: 0
+sequential: 1
+trainer: tonic.Trainer()
