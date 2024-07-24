@@ -28,19 +28,13 @@ class Installer(develop):
             ["pip", "install", "-q", "dm-acme[envs]"], check=True)
         subprocess.run(
             ["pip", "install", "-q", "dm_control>=1.0.16"], check=True)
-        # subprocess.run(["pip", "install", "-e", "lib/tonic/tonic"], check=True)
         super().run()
-
-# class CustomInstallCommand(develop, install, ):
-    # def run(self):
 
 setup(
     name='social_agents',
     version='0.1',
     packages=find_packages(include=['social_agents', 'social_agents.*']),
-    # package_dir={'': 'social_agents'},
     cmdclass={
         'develop': Installer,
     },
-    # install_requires=['tonic'],
 )

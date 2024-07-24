@@ -167,3 +167,5 @@ trash
 dm_control
 *.mp4
 *.ipynb
+MUJOCO_LOG.TXT
+.DS_Store
