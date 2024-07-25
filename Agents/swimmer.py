@@ -161,10 +161,25 @@ class Physics(mujoco.Physics):
   def nose_to_target_dist(self, head_name, nose_name):
     """Returns the distance from the nose to the target."""
     return np.linalg.norm(self.nose_to_target(head_name, nose_name))
+  
+  def nose_to_nose(self):
+    "Returns a vector from nose to nose in local coordinate of the head. "
+    nose1_pos = self.named.data.geom_xpos['nose1']
+    nose2_pos = self.named.data.geom_xpos['nose2']
+    nose_to_nose = (nose1_pos - nose2_pos)
+    head1_orientation = self.named.data.xmat['head1'].reshape(3, 3)
+    nose_to_nose = nose_to_nose.dot(head1_orientation)[:2]
+    # print(nose_to_nose)
+    return nose_to_nose
+  
+  def nose_to_nose_dist(self):
+    dist = np.linalg.norm(self.nose_to_nose())
+    # print(dist)
+    return dist
 
   def body_velocities(self):
     """Returns local body velocities: x, y linear, z rotational for 2 swimmers."""
-    print(self.named.data.sensordata)
+    # print(self.named.data.sensordata)
     # Extract the portion of sensordata after index 21
     xvel_local = self.named.data.sensordata[21:]
 
@@ -183,8 +198,6 @@ class Physics(mujoco.Physics):
     swimmer1 = swimmer1.reshape((-1, 6))
     swimmer2 = swimmer2.reshape((-1, 6))
 
-    print(swimmer1, swimmer2)
-
     vx_vy_wz = [0, 1, 5]  # Indices for linear x,y vels and rotational z vel.
     swim1_xvel = swimmer1[:, vx_vy_wz].ravel()
     swim2_xvel = swimmer2[:, vx_vy_wz].ravel()
@@ -193,8 +206,11 @@ class Physics(mujoco.Physics):
 
   def joints(self):
     """Returns all internal joint angles (excluding root joints) for each swimmer."""
-    qpos = self.data.qpos[3:]
-
+    # print(self.named.data.qpos)
+    swimmer1_joints = self.data.qpos[3:8].copy()
+    swimmer2_joints = self.data.qpos[8:].copy()
+    both_swimmer_joints = np.concatenate((swimmer1_joints, swimmer2_joints))
+    return both_swimmer_joints
 
 class Swimmer(base.Task):
   """A swimmer `Task` to reach the target or just swim."""
